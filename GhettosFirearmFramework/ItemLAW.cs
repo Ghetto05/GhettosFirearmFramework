@@ -14,107 +14,228 @@ namespace GhettosFirearmFramework
         Item item;
         ItemModuleLAW module;
         Handle mainHandle;
-        
-        Animation deployAnim;
-        Animation retractAnim;
-        Animation fireAnim;
+
+        //Transforms
         Transform muzzle;
-        ParticleSystem muzzleFlash;
 
+        //SFX
         AudioSource fireSFX;
+        bool hasFireSFX;
         AudioSource retractSFX;
+        bool hasRetractSFX;
         AudioSource deploySFX;
+        bool hasDeploySFX;
 
-        string projectileItem;
+        //VFX
+        ParticleSystem muzzleFlash;
+        bool hasMuzzleFlash;
+
+        //Animations
+        Animation deployAnim;
+        bool hasDeployAnim;
+        Animation retractAnim;
+        bool hasRetractAnim;
+        Animation fireAnim;
+        bool hasFireAnim;
+
         string deployAnimName;
         string retractAnimName;
         string fireAnimName;
 
-        private bool deployed = false;
-        private bool animating = false;
+        //Data
+        string projectileItem;
         private bool usesRocketScript = false;
 
+        //func vars
         private int ammoCap = 1;
+        private bool deployed = false;
+        private bool animating = false;
 
         public void GetReferences()
         {
-            if (!module.debugMode)
+            //Transforms
+            if (item.GetCustomReference("mainHandle").GetComponent<Handle>() == null)
             {
-                deployAnim = item.GetCustomReference("deployAnim").GetComponent<Animation>();
-                retractAnim = item.GetCustomReference("retractAnim").GetComponent<Animation>();
-                fireAnim = item.GetCustomReference("fireAnim").GetComponent<Animation>();
-                fireSFX = item.GetCustomReference("fireSFX").GetComponent<AudioSource>();
-                deploySFX = item.GetCustomReference("deploySFX").GetComponent<AudioSource>();
-                retractSFX = item.GetCustomReference("retractSFX").GetComponent<AudioSource>();
-                muzzle = item.GetCustomReference("muzzle");
-                muzzleFlash = item.GetCustomReference("muzzleFlash").GetComponent<ParticleSystem>();
-                projectileItem = module.ProjectileID;
-                deployAnimName = module.deployAnimName;
-                retractAnimName = module.retractAnimName;
-                fireAnimName = module.fireAnimName;
-                usesRocketScript = module.usesRocketScript;
-                //fireSFX.enabled = true;
-                //deploySFX.enabled = true;
-                //retractSFX.enabled = true;
+                if (module.debugMode)
+                {
+                    Debug.LogError(item.data.id + ": failed to get reference: mainHandle");
+                }
             }
             else
             {
-                try
+                mainHandle = item.GetCustomReference("mainHandle").GetComponent<Handle>();
+            }
+
+            if (item.GetCustomReference("muzzle") == null)
+            {
+                if (module.debugMode)
                 {
-                    deployAnim = item.GetCustomReference("deployAnim").GetComponent<Animation>();
+                    Debug.LogError(item.data.id + ": failed to get reference: muzzle");
                 }
-                catch
-                { Debug.LogError("LAW: Failed to get reference: deployAnim"); }
-                try
+            }
+            else
+            {
+                muzzle = item.GetCustomReference("muzzle");
+            }
+
+            //SFX
+            if (item.GetCustomReference("fireSFX").GetComponent<AudioSource>() == null)
+            {
+                if (module.debugMode)
                 {
-                    fireAnim = item.GetCustomReference("fireAnim").GetComponent<Animation>();
+                    Debug.LogError(item.data.id + ": failed to get reference: fireSFX");
                 }
-                catch
-                { Debug.LogError("LAW: Failed to get reference: fireAnim"); }
-                try
+                hasFireSFX = false;
+            }
+            else
+            {
+                fireSFX = item.GetCustomReference("fireSFX").GetComponent<AudioSource>();
+                hasFireSFX = true;
+            }
+
+            if (item.GetCustomReference("retractSFX").GetComponent<AudioSource>() == null)
+            {
+                if (module.debugMode)
                 {
-                    deploySFX = item.GetCustomReference("deploySFX").GetComponent<AudioSource>();
+                    Debug.LogError(item.data.id + ": failed to get reference: retractSFX");
                 }
-                catch
-                { Debug.LogError("LAW: Failed to get reference: deploySFX"); }
-                try
+                hasRetractSFX = false;
+            }
+            else
+            {
+                fireSFX = item.GetCustomReference("retractSFX").GetComponent<AudioSource>();
+                hasRetractSFX = true;
+            }
+
+            if (item.GetCustomReference("deploySFX").GetComponent<AudioSource>() == null)
+            {
+                if (module.debugMode)
                 {
-                    muzzle = item.GetCustomReference("muzzle");
+                    Debug.LogError(item.data.id + ": failed to get reference: deploySFX");
                 }
-                catch
-                { Debug.LogError("LAW: Failed to get reference: muzzle"); }
-                try
+                hasDeploySFX = false;
+            }
+            else
+            {
+                deploySFX = item.GetCustomReference("fireSFX").GetComponent<AudioSource>();
+                hasDeploySFX = true;
+            }
+
+            //VFX
+            if (item.GetCustomReference("muzzleFlash").GetComponent<ParticleSystem>() == null)
+            {
+                if (module.debugMode)
                 {
-                    muzzleFlash = item.GetCustomReference("muzzleFlash").GetComponent<ParticleSystem>();
+                    Debug.LogError(item.data.id + ": failed to get reference: muzzleFlash");
                 }
-                catch
-                { Debug.LogError("LAW: Failed to get reference: muzzleFlash"); }
-                try
+                hasMuzzleFlash = false;
+            }
+            else
+            {
+                muzzleFlash = item.GetCustomReference("muzzleFlash").GetComponent<ParticleSystem>();
+                hasMuzzleFlash = true;
+            }
+
+            //Animations
+            if (item.GetCustomReference("deployAnim").GetComponent<Animation>() == null)
+            {
+                if (module.debugMode)
                 {
-                    retractSFX = item.GetCustomReference("retractSFX").GetComponent<AudioSource>();
+                    Debug.LogError(item.data.id + ": failed to get reference: deployAnim");
                 }
-                catch
-                { Debug.LogError("LAW: Failed to get reference: retractSFX"); }
-                try
+                hasDeployAnim = false;
+            }
+            else
+            {
+                deployAnim = item.GetCustomReference("deployAnim").GetComponent<Animation>();
+                hasDeployAnim = true;
+            }
+
+            if (item.GetCustomReference("retractAnim").GetComponent<Animation>() == null)
+            {
+                if (module.debugMode)
                 {
-                    fireSFX = item.GetCustomReference("fireSFX").GetComponent<AudioSource>();
+                    Debug.LogError(item.data.id + ": failed to get reference: retractAnim");
                 }
-                catch
-                { Debug.LogError("LAW: Failed to get reference: fireSFX"); }
-                try
+                hasRetractAnim = false;
+            }
+            else
+            {
+                retractAnim = item.GetCustomReference("retractAnim").GetComponent<Animation>();
+                hasRetractAnim = true;
+            }
+
+            if (item.GetCustomReference("fireAnim").GetComponent<Animation>() == null)
+            {
+                if (module.debugMode)
                 {
-                    retractAnim = item.GetCustomReference("retractAnim").GetComponent<Animation>();
+                    Debug.LogError(item.data.id + ": failed to get reference: fireAnim");
                 }
-                catch
-                { Debug.LogError("LAW: Failed to get reference: retractAnim"); }
+                hasFireAnim = false;
+            }
+            else
+            {
+                fireAnim = item.GetCustomReference("fireAnim").GetComponent<Animation>();
+                hasFireAnim = true;
+            }
+
+            //Animation names
+            if (module.fireAnimName == null)
+            {
+                if (module.debugMode)
+                {
+                    Debug.LogError(item.data.id + ": failed to get reference: fireAnimName");
+                }
+                hasFireAnim = false;
+            }
+            else if (hasFireAnim)
+            {
+                fireAnimName = module.fireAnimName;
+            }
+
+            if (module.retractAnimName == null)
+            {
+                if (module.debugMode)
+                {
+                    Debug.LogError(item.data.id + ": failed to get reference: retractAnimName");
+                }
+                hasRetractAnim = false;
+            }
+            else if (hasRetractAnim)
+            {
+                retractAnimName = module.retractAnimName;
+            }
+
+            if (module.deployAnimName == null)
+            {
+                if (module.debugMode)
+                {
+                    Debug.LogError(item.data.id + ": failed to get reference: deployAnimName");
+                }
+                hasFireAnim = false;
+            }
+            else if (hasDeployAnim)
+            {
+                deployAnimName = module.deployAnimName;
+            }
+
+            //Data
+            if (module.ProjectileID == null)
+            {
+                if (module.debugMode)
+                {
+                    Debug.LogError(item.data.id + ": failed to get reference: projectileItem");
+                }
+                hasFireAnim = false;
+            }
+            else
+            {
+                projectileItem = module.ProjectileID;
             }
         }
 
         public void Awake()
         {
-            item = base.GetComponent<Item>();
-            module = item.data.GetModule<ItemModuleLAW>();
-            mainHandle = item.GetCustomReference("MainHandle").GetComponent<Handle>();
             GetReferences();
 
             item.OnHeldActionEvent += Item_OnHeldActionEvent;
@@ -126,51 +247,72 @@ namespace GhettosFirearmFramework
             {
                 Fire();
             }
-            if (interactionHandle == mainHandle && action == Interactable.Action.AlternateUseStart && !deployed && !animating)
+            if (interactionHandle == mainHandle && action == Interactable.Action.AlternateUseStart && !animating)
             {
-                StartCoroutine(Deploy());
-            }
-            if (interactionHandle == mainHandle && action == Interactable.Action.AlternateUseStart && deployed && !animating)
-            {
-                StartCoroutine(Retract());
+                if (!deployed)
+                { StartCoroutine(Deploy()); }
+                else
+                { StartCoroutine(Retract()); }
             }
         }
 
         private IEnumerator Deploy()
         {
-            animating = true;
-            deployAnim.Play(deployAnimName);
-            //deploySFX.Play();
-            yield return new WaitForSeconds(deployAnim.clip.length);
+            if (hasDeploySFX)
+            {
+                deploySFX.Play();
+            }
+            if (hasDeployAnim)
+            {
+                animating = true;
+                deployAnim.Play(deployAnimName);
+                yield return new WaitForSeconds(deployAnim.clip.length);
+                animating = false;
+            }
             deployed = true;
-            animating = false;
         }
 
         private IEnumerator Retract()
         {
-            animating = true;
-            retractAnim.Play(retractAnimName);
-            //retractSFX.Play();
-            yield return new WaitForSeconds(retractAnim.clip.length);
+            if (hasRetractSFX)
+            {
+                retractSFX.Play();
+            }
+            if (hasRetractAnim)
+            {
+                animating = true;
+                retractAnim.Play(retractAnimName);
+                yield return new WaitForSeconds(retractAnim.clip.length);
+                animating = false;
+            }
             deployed = false;
-            animating = false;
         }
 
         private void Fire()
         {
-            ammoCap--;
-            fireAnim.Play(fireAnimName);
-            muzzleFlash.Play();
-            //fireSFX.Play();
-            Catalog.GetData<ItemData>(projectileItem).SpawnAsync(i => 
-            { 
-                i.transform.rotation = muzzle.rotation; 
-                i.transform.position = muzzle.position; 
-                if (usesRocketScript) 
-                { 
-                    i.GetComponent<ItemRocket>().Fire(); 
-                } 
+            Catalog.GetData<ItemData>(projectileItem).SpawnAsync(i =>
+            {
+                i.transform.rotation = muzzle.rotation;
+                i.transform.position = muzzle.position;
+                if (usesRocketScript)
+                {
+                    i.GetComponent<ItemRocket>().Fire();
+                }
             });
+            ammoCap--;
+
+            if (hasFireSFX)
+            {
+                fireSFX.Play();
+            }
+            if (hasFireAnim)
+            {
+                fireAnim.Play(fireAnimName);
+            }
+            if (hasMuzzleFlash)
+            {
+                muzzleFlash.Play();
+            }
         }
     }
 }
