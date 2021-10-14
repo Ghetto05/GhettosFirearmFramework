@@ -14,7 +14,6 @@ namespace GhettosFirearmFramework
         Item item;
         ItemModuleRocket module;
 
-        AudioSource flightLoop;
         float thrust;
         bool boosterActive = false;
 
@@ -38,7 +37,7 @@ namespace GhettosFirearmFramework
         public void Fire()
         {
             boosterActive = true;
-            item.transform.Find("FIRESOUND");
+            item.transform.Find("FireSound");
         }
 
         public void Update()
