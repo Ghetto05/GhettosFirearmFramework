@@ -42,13 +42,24 @@ namespace GhettosFirearmFramework
             loaded = false;
             item.transform.Find("RoundInWeaponMesh").gameObject.SetActive(false);
             if (item.transform.Find("FireSFX").GetComponent<AudioSource>() != null) item.transform.Find("FireSFX").GetComponent<AudioSource>().Play();
+            if (item.transform.Find("FireVFX").GetComponent<ParticleSystem>() != null) item.transform.Find("FireVFX").GetComponent<ParticleSystem>().Play();
             try { if (item.transform.Find("Animations").GetComponent<Animation>() != null) item.transform.Find("Animations").GetComponent<Animation>().Play("FireAnim"); } catch { }
             try
             {
                 Catalog.GetData<ItemData>(module.ProjectileID).SpawnAsync(Item =>
-            {
-                //item.GetComponent<ItemBatonFragment>().SetItem1(item.transform); 
-            }, item.transform.Find("").position, item.transform.Find("").rotation, null);
+                {
+                    //rocket script
+                    if (item.transform.GetComponent<ItemRocket>() != null)
+                    {
+                        item.transform.GetComponent<ItemRocket>().Fire();
+                    }
+                    //no script
+                    else
+                    {
+                        item.rb.AddForce(Vector3.up * 100, ForceMode.Impulse);
+                    }
+                }, 
+                item.transform.Find("Muzzle").position, item.transform.Find("Muzzle").rotation, null);
             }
             catch { }
         }
