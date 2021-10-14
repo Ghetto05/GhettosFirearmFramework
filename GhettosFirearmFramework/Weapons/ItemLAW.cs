@@ -46,7 +46,7 @@ namespace GhettosFirearmFramework
             try
             {
                 Catalog.GetData<ItemData>(module.ProjectileID).SpawnAsync(Item =>
-          {
+            {
                 //item.GetComponent<ItemBatonFragment>().SetItem1(item.transform); 
             }, item.transform.Find("").position, item.transform.Find("").rotation, null);
             }
