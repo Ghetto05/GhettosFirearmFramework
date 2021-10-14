@@ -13,21 +13,16 @@ namespace GhettosFirearmFramework
     {
         Item item;
         ItemModuleRocket module;
-        Handle mainHandle;
 
         AudioSource flightLoop;
-
-        bool hasSound = false;
-        bool boosterActive = false;
         float thrust;
+        bool boosterActive = false;
 
         public void Awake()
         {
             item = base.GetComponent<Item>();
             module = item.data.GetModule<ItemModuleRocket>();
-            hasSound = module.hasSound;
-            if (hasSound) { flightLoop = item.GetCustomReference("flightSound").GetComponent<AudioSource>(); }
-            thrust = module.thrust;
+            thrust = module.ThrusterForce;
 
             item.OnHeldActionEvent += Item_OnHeldActionEvent;
         }
@@ -36,10 +31,6 @@ namespace GhettosFirearmFramework
         {
             if (action == Interactable.Action.UseStart)
             {
-                if (hasSound)
-                {
-                    flightLoop.Play();
-                }
                 Fire();
             }
         }
@@ -47,12 +38,14 @@ namespace GhettosFirearmFramework
         public void Fire()
         {
             boosterActive = true;
+            item.transform.Find("FIRESOUND");
         }
 
         public void Update()
         {
             if (boosterActive)
             {
+                item.rb.angularDrag = 0;
                 item.rb.AddRelativeForce(Vector3.up * thrust);
             }
         }

@@ -302,12 +302,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ItemExplosionCollision.cs" />
-    <Compile Include="ItemModuleExplosionCollision.cs" />
-    <Compile Include="ItemRocket.cs" />
-    <Compile Include="ItemLAW.cs" />
-    <Compile Include="ItemModuleRocket.cs" />
-    <Compile Include="ItemModuleLAW.cs" />
+    <Compile Include="Tools\ItemExplosionCollision.cs" />
+    <Compile Include="ItemModules\ItemModuleExplosionCollision.cs" />
+    <Compile Include="Ammunition\ItemRocket.cs" />
+    <Compile Include="Weapons\ItemLAW.cs" />
+    <Compile Include="ItemModules\ItemModuleRocket.cs" />
+    <Compile Include="ItemModules\ItemModuleLAW.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

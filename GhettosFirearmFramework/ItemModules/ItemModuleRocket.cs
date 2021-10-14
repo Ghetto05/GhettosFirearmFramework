@@ -9,8 +9,7 @@ namespace GhettosFirearmFramework
 {
     class ItemModuleRocket : ItemModule
     {
-        public float thrust;
-        public bool hasSound;
+        public float ThrusterForce;
 
         public override void OnItemLoaded(Item item)
         {

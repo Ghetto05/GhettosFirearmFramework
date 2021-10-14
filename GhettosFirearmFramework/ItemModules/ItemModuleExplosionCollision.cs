@@ -9,9 +9,9 @@ namespace GhettosFirearmFramework
 {
     class ItemModuleExplosionCollision : ItemModule
     {
-        public float explosionForce;
-        public float blastRadius;
-        public float liftMultiplier;
+        public float ExplosionForce;
+        public float BlastRadius;
+        public float PlayerForceMultiplyer;
 
         public override void OnItemLoaded(Item item)
         {
