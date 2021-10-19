@@ -7,15 +7,16 @@ using ThunderRoad;
 
 namespace GhettosFirearmFramework
 {
-    class ItemModuleLAW : ItemModule
+    class ItemModuleM1911 : ItemModule
     {
-        public string ProjectileID;
-        public bool DebugMode;
-        public String[] AmmoIDs;
+        //AMMO
+        string Caliber;
+        string MagazineType;
+
         public override void OnItemLoaded(Item item)
         {
             base.OnItemLoaded(item);
-            item.gameObject.AddComponent<ItemCartridge>();
+            item.gameObject.AddComponent<ItemM1911>();
         }
     }
 }

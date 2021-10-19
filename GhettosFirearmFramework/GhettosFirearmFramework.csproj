@@ -302,9 +302,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ItemMagazine.cs" />
+    <Compile Include="ItemCartridge.cs" />
+    <Compile Include="ItemModules\ItemModuleM1911.cs" />
+    <Compile Include="ItemModuleCartridge.cs" />
+    <Compile Include="ItemModuleMagazine.cs" />
     <Compile Include="Tools\ItemExplosionCollision.cs" />
     <Compile Include="ItemModules\ItemModuleExplosionCollision.cs" />
     <Compile Include="Ammunition\ItemRocket.cs" />
+    <Compile Include="Weapons\ItemM1911.cs" />
     <Compile Include="Weapons\ItemLAW.cs" />
     <Compile Include="ItemModules\ItemModuleRocket.cs" />
     <Compile Include="ItemModules\ItemModuleLAW.cs" />
