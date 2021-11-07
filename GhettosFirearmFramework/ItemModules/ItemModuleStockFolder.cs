@@ -7,19 +7,17 @@ using ThunderRoad;
 
 namespace GhettosFirearmFramework
 {
-    class ItemModuleM1911 : ItemModule
+    class ItemModuleStockFolder : ItemModule
     {
-        //AMMO
-        public string Caliber;
-        public string MagazineType;
-        public float SlideTravelDistance;
-        public float BlowBackForce;
-        public bool GenerateSlideJoint;
+        public string AnimatorComponentReference;
+        public string HandleName;
+        public bool UsesTrigger;
+        public bool UsesAlternateUse;
 
         public override void OnItemLoaded(Item item)
         {
             base.OnItemLoaded(item);
-            item.gameObject.AddComponent<ItemM1911>();
+            item.gameObject.AddComponent<ItemStockFolder>();
         }
     }
 }
